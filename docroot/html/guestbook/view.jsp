@@ -17,7 +17,7 @@
 					cssClass = "active";
 				}
 
-				if (GuestbookPermission.contains(permissionChecker, curGuestbook.getGuestbookId(), "VIEW")) {
+					if (GuestbookPermission.contains(permissionChecker, curGuestbook.getGuestbookId(), "VIEW")) {
 	%>
 
 	<portlet:renderURL var="viewPageURL">
@@ -30,17 +30,19 @@
 		label="<%=HtmlUtil.escape(curGuestbook.getName())%>" />
 
 	<%
+				}
 			}
-		}
 	%>
 
 </aui:nav>
 
 <aui:button-row cssClass="guestbook-buttons">
 
-<!-- permissions for add entry button -->
-<c:if test='<%= GuestbookModelPermission.contains(permissionChecker, scopeGroupId, "ADD_GUESTBOOK") %>'/>
-<c:if test='<%= GuestbookPermission.contains(permissionChecker, guestbookId, "ADD_ENTRY") %>'/>
+	<!-- permissions for add entry button -->
+	<c:if
+		test='<%=GuestbookModelPermission.contains(permissionChecker, scopeGroupId, "ADD_GUESTBOOK")%>' />
+	<c:if
+		test='<%=GuestbookPermission.contains(permissionChecker, guestbookId, "ADD_ENTRY")%>' />
 
 
 	<portlet:renderURL var="addGuestbookURL">
@@ -62,11 +64,10 @@
 
 <liferay-ui:search-container
 	total="<%=EntryLocalServiceUtil.getEntriesCount(scopeGroupId, guestbookId)%>">
-	
+
 	<liferay-ui:search-container-results
-		results="<%=EntryLocalServiceUtil.getEntries(scopeGroupId,
-                        guestbookId, searchContainer.getStart(),
-                        searchContainer.getEnd())%>" />
+		results="<%=EntryLocalServiceUtil.getEntries(scopeGroupId, guestbookId, searchContainer.getStart(),
+						searchContainer.getEnd())%>" />
 
 	<liferay-ui:search-container-row
 		className="com.liferay.docs.guestbook.model.Entry" modelVar="entry">
@@ -78,5 +79,5 @@
 	</liferay-ui:search-container-row>
 
 	<liferay-ui:search-iterator />
-	
+
 </liferay-ui:search-container>
