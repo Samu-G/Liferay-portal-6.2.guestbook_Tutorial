@@ -101,11 +101,11 @@ public class EntryLocalServiceImpl extends EntryLocalServiceBaseImpl {
 		entry.setName(name);
 		entry.setEmail(email);
 		entry.setMessage(message);
-
 		entryPersistence.update(entry);
 
+		resourceLocalService.addResources(user.getCompanyId(), groupId, userId, Entry.class.getName(), entryId, false,
+				true, true);
 		return entry;
-
 	}
 
 	@Override

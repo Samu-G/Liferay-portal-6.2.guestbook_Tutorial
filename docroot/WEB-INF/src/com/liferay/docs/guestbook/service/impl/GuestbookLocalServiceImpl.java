@@ -87,9 +87,10 @@ public class GuestbookLocalServiceImpl extends GuestbookLocalServiceBaseImpl {
 		guestbook.setModifiedDate(serviceContext.getModifiedDate(now));
 		guestbook.setName(name);
 		guestbook.setExpandoBridgeAttributes(serviceContext);
-
 		guestbookPersistence.update(guestbook);
-
+		
+		resourceLocalService.addResources(user.getCompanyId(), groupId, userId,
+				Guestbook.class.getName(), guestbookId, false, true, true);
 		return guestbook;
 	}
 
