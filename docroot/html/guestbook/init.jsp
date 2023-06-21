@@ -9,6 +9,7 @@
 <%@ page import="com.liferay.portal.kernel.util.HtmlUtil" %>
 <%@ page import="com.liferay.portal.kernel.util.StringPool" %>
 <%@ page import="com.liferay.docs.guestbook.model.Guestbook" %>
+<%@ page import="com.liferay.docs.guestbook.model.Entry" %>
 <%@ page import="com.liferay.docs.guestbook.service.EntryLocalServiceUtil" %>
 <%@ page import="com.liferay.docs.guestbook.service.GuestbookLocalServiceUtil" %>
 <%@ page import="com.liferay.docs.guestbook.service.permission.GuestbookModelPermission" %>

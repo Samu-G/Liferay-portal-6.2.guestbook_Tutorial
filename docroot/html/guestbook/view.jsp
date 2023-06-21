@@ -1,24 +1,24 @@
 <%@include file="/html/guestbook/init.jsp"%>
 
 <%
-    long guestbookId = Long.valueOf((Long) renderRequest
-            .getAttribute("guestbookId"));
+	long guestbookId = Long.valueOf((Long) renderRequest.getAttribute("guestbookId"));
 %>
 
 <aui:nav cssClass="nav-tabs">
 
 	<%
-        List<Guestbook> guestbooks = GuestbookLocalServiceUtil
-                    .getGuestbooks(scopeGroupId);
-            for (int i = 0; i < guestbooks.size(); i++) {
-                Guestbook curGuestbook = (Guestbook) guestbooks.get(i);
+		List<Guestbook> guestbooks = GuestbookLocalServiceUtil.getGuestbooks(scopeGroupId);
+			for (int i = 0; i < guestbooks.size(); i++) {
+				Guestbook curGuestbook = (Guestbook) guestbooks.get(i);
 
-                String cssClass = StringPool.BLANK;
+				String cssClass = StringPool.BLANK;
 
-                if (curGuestbook.getGuestbookId() == guestbookId) {
-                    cssClass = "active";
-                }
-    %>
+				if (curGuestbook.getGuestbookId() == guestbookId) {
+					cssClass = "active";
+				}
+
+				if (GuestbookPermission.contains(permissionChecker, curGuestbook.getGuestbookId(), "VIEW")) {
+	%>
 
 	<portlet:renderURL var="viewPageURL">
 		<portlet:param name="mvcPath" value="/html/guestbook/view.jsp" />
@@ -30,12 +30,18 @@
 		label="<%=HtmlUtil.escape(curGuestbook.getName())%>" />
 
 	<%
-        }
-    %>
+			}
+		}
+	%>
 
 </aui:nav>
 
 <aui:button-row cssClass="guestbook-buttons">
+
+<!-- permissions for add entry button -->
+<c:if test='<%= GuestbookModelPermission.contains(permissionChecker, scopeGroupId, "ADD_GUESTBOOK") %>'/>
+<c:if test='<%= GuestbookPermission.contains(permissionChecker, guestbookId, "ADD_ENTRY") %>'/>
+
 
 	<portlet:renderURL var="addGuestbookURL">
 		<portlet:param name="mvcPath"
@@ -54,20 +60,23 @@
 
 </aui:button-row>
 
-<liferay-ui:search-container total="<%=EntryLocalServiceUtil.getEntriesCount(scopeGroupId, guestbookId)%>">
-    <liferay-ui:search-container-results
-        results="<%=EntryLocalServiceUtil.getEntries(scopeGroupId,
+<liferay-ui:search-container
+	total="<%=EntryLocalServiceUtil.getEntriesCount(scopeGroupId, guestbookId)%>">
+	
+	<liferay-ui:search-container-results
+		results="<%=EntryLocalServiceUtil.getEntries(scopeGroupId,
                         guestbookId, searchContainer.getStart(),
                         searchContainer.getEnd())%>" />
 
-    <liferay-ui:search-container-row
-        className="com.liferay.docs.guestbook.model.Entry" modelVar="entry">
+	<liferay-ui:search-container-row
+		className="com.liferay.docs.guestbook.model.Entry" modelVar="entry">
 
-        <liferay-ui:search-container-column-text property="message" />
+		<liferay-ui:search-container-column-text property="message" />
 
-        <liferay-ui:search-container-column-text property="name" />
+		<liferay-ui:search-container-column-text property="name" />
 
-    </liferay-ui:search-container-row>
+	</liferay-ui:search-container-row>
 
-    <liferay-ui:search-iterator />
+	<liferay-ui:search-iterator />
+	
 </liferay-ui:search-container>
