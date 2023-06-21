@@ -83,7 +83,7 @@ public class GuestbookClp extends BaseModelImpl<Guestbook> implements Guestbook 
 		attributes.put("userName", getUserName());
 		attributes.put("createDate", getCreateDate());
 		attributes.put("modifiedDate", getModifiedDate());
-		attributes.put("nome", getNome());
+		attributes.put("name", getName());
 
 		return attributes;
 	}
@@ -138,10 +138,10 @@ public class GuestbookClp extends BaseModelImpl<Guestbook> implements Guestbook 
 			setModifiedDate(modifiedDate);
 		}
 
-		String nome = (String)attributes.get("nome");
+		String name = (String)attributes.get("name");
 
-		if (nome != null) {
-			setNome(nome);
+		if (name != null) {
+			setName(name);
 		}
 	}
 
@@ -340,21 +340,21 @@ public class GuestbookClp extends BaseModelImpl<Guestbook> implements Guestbook 
 	}
 
 	@Override
-	public String getNome() {
-		return _nome;
+	public String getName() {
+		return _name;
 	}
 
 	@Override
-	public void setNome(String nome) {
-		_nome = nome;
+	public void setName(String name) {
+		_name = name;
 
 		if (_guestbookRemoteModel != null) {
 			try {
 				Class<?> clazz = _guestbookRemoteModel.getClass();
 
-				Method method = clazz.getMethod("setNome", String.class);
+				Method method = clazz.getMethod("setName", String.class);
 
-				method.invoke(_guestbookRemoteModel, nome);
+				method.invoke(_guestbookRemoteModel, name);
 			}
 			catch (Exception e) {
 				throw new UnsupportedOperationException(e);
@@ -445,7 +445,7 @@ public class GuestbookClp extends BaseModelImpl<Guestbook> implements Guestbook 
 		clone.setUserName(getUserName());
 		clone.setCreateDate(getCreateDate());
 		clone.setModifiedDate(getModifiedDate());
-		clone.setNome(getNome());
+		clone.setName(getName());
 
 		return clone;
 	}
@@ -516,8 +516,8 @@ public class GuestbookClp extends BaseModelImpl<Guestbook> implements Guestbook 
 		sb.append(getCreateDate());
 		sb.append(", modifiedDate=");
 		sb.append(getModifiedDate());
-		sb.append(", nome=");
-		sb.append(getNome());
+		sb.append(", name=");
+		sb.append(getName());
 		sb.append("}");
 
 		return sb.toString();
@@ -564,8 +564,8 @@ public class GuestbookClp extends BaseModelImpl<Guestbook> implements Guestbook 
 		sb.append(getModifiedDate());
 		sb.append("]]></column-value></column>");
 		sb.append(
-			"<column><column-name>nome</column-name><column-value><![CDATA[");
-		sb.append(getNome());
+			"<column><column-name>name</column-name><column-value><![CDATA[");
+		sb.append(getName());
 		sb.append("]]></column-value></column>");
 
 		sb.append("</model>");
@@ -582,7 +582,7 @@ public class GuestbookClp extends BaseModelImpl<Guestbook> implements Guestbook 
 	private String _userName;
 	private Date _createDate;
 	private Date _modifiedDate;
-	private String _nome;
+	private String _name;
 	private BaseModel<?> _guestbookRemoteModel;
 	private Class<?> _clpSerializerClass = com.liferay.docs.guestbook.service.ClpSerializer.class;
 }

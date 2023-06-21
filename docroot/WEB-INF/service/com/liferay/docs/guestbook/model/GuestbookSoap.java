@@ -39,7 +39,7 @@ public class GuestbookSoap implements Serializable {
 		soapModel.setUserName(model.getUserName());
 		soapModel.setCreateDate(model.getCreateDate());
 		soapModel.setModifiedDate(model.getModifiedDate());
-		soapModel.setNome(model.getNome());
+		soapModel.setName(model.getName());
 
 		return soapModel;
 	}
@@ -156,12 +156,12 @@ public class GuestbookSoap implements Serializable {
 		_modifiedDate = modifiedDate;
 	}
 
-	public String getNome() {
-		return _nome;
+	public String getName() {
+		return _name;
 	}
 
-	public void setNome(String nome) {
-		_nome = nome;
+	public void setName(String name) {
+		_name = name;
 	}
 
 	private String _uuid;
@@ -172,5 +172,5 @@ public class GuestbookSoap implements Serializable {
 	private String _userName;
 	private Date _createDate;
 	private Date _modifiedDate;
-	private String _nome;
+	private String _name;
 }

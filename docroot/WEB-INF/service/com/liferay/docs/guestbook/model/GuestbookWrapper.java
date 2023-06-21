@@ -58,7 +58,7 @@ public class GuestbookWrapper implements Guestbook, ModelWrapper<Guestbook> {
 		attributes.put("userName", getUserName());
 		attributes.put("createDate", getCreateDate());
 		attributes.put("modifiedDate", getModifiedDate());
-		attributes.put("nome", getNome());
+		attributes.put("name", getName());
 
 		return attributes;
 	}
@@ -113,10 +113,10 @@ public class GuestbookWrapper implements Guestbook, ModelWrapper<Guestbook> {
 			setModifiedDate(modifiedDate);
 		}
 
-		String nome = (String)attributes.get("nome");
+		String name = (String)attributes.get("name");
 
-		if (nome != null) {
-			setNome(nome);
+		if (name != null) {
+			setName(name);
 		}
 	}
 
@@ -323,23 +323,23 @@ public class GuestbookWrapper implements Guestbook, ModelWrapper<Guestbook> {
 	}
 
 	/**
-	* Returns the nome of this guestbook.
+	* Returns the name of this guestbook.
 	*
-	* @return the nome of this guestbook
+	* @return the name of this guestbook
 	*/
 	@Override
-	public java.lang.String getNome() {
-		return _guestbook.getNome();
+	public java.lang.String getName() {
+		return _guestbook.getName();
 	}
 
 	/**
-	* Sets the nome of this guestbook.
+	* Sets the name of this guestbook.
 	*
-	* @param nome the nome of this guestbook
+	* @param name the name of this guestbook
 	*/
 	@Override
-	public void setNome(java.lang.String nome) {
-		_guestbook.setNome(nome);
+	public void setName(java.lang.String name) {
+		_guestbook.setName(name);
 	}
 
 	@Override

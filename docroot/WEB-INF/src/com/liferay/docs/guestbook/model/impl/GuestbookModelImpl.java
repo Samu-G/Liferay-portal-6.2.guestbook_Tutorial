@@ -75,9 +75,9 @@ public class GuestbookModelImpl extends BaseModelImpl<Guestbook>
 			{ "userName", Types.VARCHAR },
 			{ "createDate", Types.TIMESTAMP },
 			{ "modifiedDate", Types.TIMESTAMP },
-			{ "nome", Types.VARCHAR }
+			{ "name", Types.VARCHAR }
 		};
-	public static final String TABLE_SQL_CREATE = "create table AB_Guestbook (uuid_ VARCHAR(75) null,guestbookId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,nome VARCHAR(75) null)";
+	public static final String TABLE_SQL_CREATE = "create table AB_Guestbook (uuid_ VARCHAR(75) null,guestbookId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,name VARCHAR(75) null)";
 	public static final String TABLE_SQL_DROP = "drop table AB_Guestbook";
 	public static final String ORDER_BY_JPQL = " ORDER BY guestbook.guestbookId ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY AB_Guestbook.guestbookId ASC";
@@ -119,7 +119,7 @@ public class GuestbookModelImpl extends BaseModelImpl<Guestbook>
 		model.setUserName(soapModel.getUserName());
 		model.setCreateDate(soapModel.getCreateDate());
 		model.setModifiedDate(soapModel.getModifiedDate());
-		model.setNome(soapModel.getNome());
+		model.setName(soapModel.getName());
 
 		return model;
 	}
@@ -192,7 +192,7 @@ public class GuestbookModelImpl extends BaseModelImpl<Guestbook>
 		attributes.put("userName", getUserName());
 		attributes.put("createDate", getCreateDate());
 		attributes.put("modifiedDate", getModifiedDate());
-		attributes.put("nome", getNome());
+		attributes.put("name", getName());
 
 		return attributes;
 	}
@@ -247,10 +247,10 @@ public class GuestbookModelImpl extends BaseModelImpl<Guestbook>
 			setModifiedDate(modifiedDate);
 		}
 
-		String nome = (String)attributes.get("nome");
+		String name = (String)attributes.get("name");
 
-		if (nome != null) {
-			setNome(nome);
+		if (name != null) {
+			setName(name);
 		}
 	}
 
@@ -396,18 +396,18 @@ public class GuestbookModelImpl extends BaseModelImpl<Guestbook>
 
 	@JSON
 	@Override
-	public String getNome() {
-		if (_nome == null) {
+	public String getName() {
+		if (_name == null) {
 			return StringPool.BLANK;
 		}
 		else {
-			return _nome;
+			return _name;
 		}
 	}
 
 	@Override
-	public void setNome(String nome) {
-		_nome = nome;
+	public void setName(String name) {
+		_name = name;
 	}
 
 	@Override
@@ -455,7 +455,7 @@ public class GuestbookModelImpl extends BaseModelImpl<Guestbook>
 		guestbookImpl.setUserName(getUserName());
 		guestbookImpl.setCreateDate(getCreateDate());
 		guestbookImpl.setModifiedDate(getModifiedDate());
-		guestbookImpl.setNome(getNome());
+		guestbookImpl.setName(getName());
 
 		guestbookImpl.resetOriginalValues();
 
@@ -567,12 +567,12 @@ public class GuestbookModelImpl extends BaseModelImpl<Guestbook>
 			guestbookCacheModel.modifiedDate = Long.MIN_VALUE;
 		}
 
-		guestbookCacheModel.nome = getNome();
+		guestbookCacheModel.name = getName();
 
-		String nome = guestbookCacheModel.nome;
+		String name = guestbookCacheModel.name;
 
-		if ((nome != null) && (nome.length() == 0)) {
-			guestbookCacheModel.nome = null;
+		if ((name != null) && (name.length() == 0)) {
+			guestbookCacheModel.name = null;
 		}
 
 		return guestbookCacheModel;
@@ -598,8 +598,8 @@ public class GuestbookModelImpl extends BaseModelImpl<Guestbook>
 		sb.append(getCreateDate());
 		sb.append(", modifiedDate=");
 		sb.append(getModifiedDate());
-		sb.append(", nome=");
-		sb.append(getNome());
+		sb.append(", name=");
+		sb.append(getName());
 		sb.append("}");
 
 		return sb.toString();
@@ -646,8 +646,8 @@ public class GuestbookModelImpl extends BaseModelImpl<Guestbook>
 		sb.append(getModifiedDate());
 		sb.append("]]></column-value></column>");
 		sb.append(
-			"<column><column-name>nome</column-name><column-value><![CDATA[");
-		sb.append(getNome());
+			"<column><column-name>name</column-name><column-value><![CDATA[");
+		sb.append(getName());
 		sb.append("]]></column-value></column>");
 
 		sb.append("</model>");
@@ -673,7 +673,7 @@ public class GuestbookModelImpl extends BaseModelImpl<Guestbook>
 	private String _userName;
 	private Date _createDate;
 	private Date _modifiedDate;
-	private String _nome;
+	private String _name;
 	private long _columnBitmask;
 	private Guestbook _escapedModel;
 }

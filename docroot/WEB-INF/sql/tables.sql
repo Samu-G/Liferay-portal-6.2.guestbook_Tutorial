@@ -22,5 +22,5 @@ create table AB_Guestbook (
 	userName VARCHAR(75) null,
 	createDate DATE null,
 	modifiedDate DATE null,
-	nome VARCHAR(75) null
+	name VARCHAR(75) null
 );

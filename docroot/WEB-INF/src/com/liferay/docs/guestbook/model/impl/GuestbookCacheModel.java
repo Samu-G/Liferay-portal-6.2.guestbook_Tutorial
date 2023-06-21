@@ -56,8 +56,8 @@ public class GuestbookCacheModel implements CacheModel<Guestbook>,
 		sb.append(createDate);
 		sb.append(", modifiedDate=");
 		sb.append(modifiedDate);
-		sb.append(", nome=");
-		sb.append(nome);
+		sb.append(", name=");
+		sb.append(name);
 		sb.append("}");
 
 		return sb.toString();
@@ -100,11 +100,11 @@ public class GuestbookCacheModel implements CacheModel<Guestbook>,
 			guestbookImpl.setModifiedDate(new Date(modifiedDate));
 		}
 
-		if (nome == null) {
-			guestbookImpl.setNome(StringPool.BLANK);
+		if (name == null) {
+			guestbookImpl.setName(StringPool.BLANK);
 		}
 		else {
-			guestbookImpl.setNome(nome);
+			guestbookImpl.setName(name);
 		}
 
 		guestbookImpl.resetOriginalValues();
@@ -122,7 +122,7 @@ public class GuestbookCacheModel implements CacheModel<Guestbook>,
 		userName = objectInput.readUTF();
 		createDate = objectInput.readLong();
 		modifiedDate = objectInput.readLong();
-		nome = objectInput.readUTF();
+		name = objectInput.readUTF();
 	}
 
 	@Override
@@ -150,11 +150,11 @@ public class GuestbookCacheModel implements CacheModel<Guestbook>,
 		objectOutput.writeLong(createDate);
 		objectOutput.writeLong(modifiedDate);
 
-		if (nome == null) {
+		if (name == null) {
 			objectOutput.writeUTF(StringPool.BLANK);
 		}
 		else {
-			objectOutput.writeUTF(nome);
+			objectOutput.writeUTF(name);
 		}
 	}
 
@@ -166,5 +166,5 @@ public class GuestbookCacheModel implements CacheModel<Guestbook>,
 	public String userName;
 	public long createDate;
 	public long modifiedDate;
-	public String nome;
+	public String name;
 }

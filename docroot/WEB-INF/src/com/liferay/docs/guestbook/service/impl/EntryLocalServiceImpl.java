@@ -14,6 +14,7 @@
 
 package com.liferay.docs.guestbook.service.impl;
 
+import com.liferay.docs.guestbook.EntryEmailException;
 import com.liferay.docs.guestbook.EntryMessageException;
 import com.liferay.docs.guestbook.EntryNameException;
 import com.liferay.docs.guestbook.model.Entry;
@@ -52,126 +53,78 @@ public class EntryLocalServiceImpl extends EntryLocalServiceBaseImpl {
 	//IMPLEMENTARE I METODI MANCANTI PER ENTRY
 	
 	public List<Entry> getEntries(long groupId, long guestbookId) throws SystemException {
-
-	    return entryPersistence.findByG_G(groupId, guestbookId);
-	}
-	
-	public int getEntriesCount(long groupId, long guestbookId) throws SystemException {
-		
-		return entryPersistence.findByG_G(groupId, guestbookId).size();
-		
+		return entryPersistence.findByG_G(groupId, guestbookId);
 	}
 
-	public List<Entry> getEntries(long groupId, long guestbookId, int start, int end)
-	     throws SystemException {
+	public List<Entry> getEntries(long groupId, long guestbookId, int start, int end) throws SystemException {
 
-	    return entryPersistence.findByG_G(groupId, guestbookId, start, end);
+		return entryPersistence.findByG_G(groupId, guestbookId, start, end);
 	}
-	
-	protected void validate (String name, String entry) 
-	        throws PortalException {
-	    if (Validator.isNull(name)) {
-	        throw new EntryNameException();
-	    }
 
-	    if (Validator.isNull(entry)) {
-	        throw new EntryMessageException();
-	    }
-	}
-	
-	protected void validate (String name, String email, String entry) 
-	        throws PortalException {
-	    if (Validator.isNull(name)) {
-	        throw new EntryNameException();
-	    }
-	    if (Validator.isEmailAddress(email)) {
-	        throw new EntryNameException();
-	    }
-	    if (Validator.isNull(entry)) {
-	        throw new EntryMessageException();
-	    }
-	}	
-	
-	public Entry addEntry(long userId, long guestbookId, String name,
-	        String mail, String message, ServiceContext serviceContext)
-	         throws PortalException, SystemException {
-	    long groupId = serviceContext.getScopeGroupId();
-
-	    User user = userPersistence.findByPrimaryKey(userId);
-
-	    Date now = new Date();
-
-	    validate(name, message);
-
-	    long entryId = counterLocalService.increment();
-
-	    Entry entry = entryPersistence.create(entryId);
-
-	    entry.setUuid(serviceContext.getUuid());
-	    entry.setUserId(userId);
-	    entry.setGroupId(groupId);
-	    entry.setCompanyId(user.getCompanyId());
-	    entry.setUserName(user.getFullName());
-	    entry.setCreateDate(serviceContext.getCreateDate(now));
-	    entry.setModifiedDate(serviceContext.getModifiedDate(now));
-	    entry.setExpandoBridgeAttributes(serviceContext);
-	    entry.setGuestbookId(guestbookId);
-	    entry.setName(name);
-	    entry.setEmail(mail);
-	    entry.setMessage(message);
-
-	    entryPersistence.update(entry);
-
-	    return entry;
-
-	}
-	
-	public Entry deleteEntry(long entryId, ServiceContext serviceContext)
-		    throws PortalException, SystemException {
-
-		    Entry entry = getEntry(entryId);
-
-		    resourceLocalService.deleteResource(
-		        serviceContext.getCompanyId(), Entry.class.getName(),
-		        ResourceConstants.SCOPE_INDIVIDUAL, entryId);
-
-		        entry = deleteEntry(entryId);
-
-		        return entry;
+	protected void validate(String name, String email, String entry) throws PortalException {
+		if (Validator.isNull(name)) {
+			throw new EntryNameException();
 		}
-	
-	public Entry updateEntry(
-	        long userId, long guestbookId, long entryId, String name,
-	        String email, String message, ServiceContext serviceContext)
-	    throws PortalException, SystemException {
 
-	    long groupId = serviceContext.getScopeGroupId();
+		if (!Validator.isEmailAddress(email)) {
+			throw new EntryEmailException();
+		}
 
-	    User user = userPersistence.findByPrimaryKey(userId);
+		if (Validator.isNull(entry)) {
+			throw new EntryMessageException();
+		}
+	}
 
-	    Date now = new Date();
+	public Entry addEntry(long userId, long guestbookId, String name, String email, String message,
+			ServiceContext serviceContext) throws PortalException, SystemException {
+		long groupId = serviceContext.getScopeGroupId();
 
-	    validate(name, email, message);
+		User user = userPersistence.findByPrimaryKey(userId);
 
-	    Entry entry = getEntry(entryId);
+		Date now = new Date();
 
-	    entry.setUserId(userId);
-	    entry.setUserName(user.getFullName());
-	    entry.setName(name);
-	    entry.setEmail(email);
-	    entry.setMessage(message);
-	    entry.setModifiedDate(serviceContext.getModifiedDate(now));
-	    entry.setExpandoBridgeAttributes(serviceContext);
+		validate(name, email, message);
 
-	    entryPersistence.update(entry);
+		long entryId = counterLocalService.increment();
 
-	    resourceLocalService.updateResources(
-	        user.getCompanyId(), groupId, Entry.class.getName(), entryId,
-	        serviceContext.getGroupPermissions(),
-	        serviceContext.getGuestPermissions());
+		Entry entry = entryPersistence.create(entryId);
+
+		entry.setUuid(serviceContext.getUuid());
+		entry.setUserId(userId);
+		entry.setGroupId(groupId);
+		entry.setCompanyId(user.getCompanyId());
+		entry.setUserName(user.getFullName());
+		entry.setCreateDate(serviceContext.getCreateDate(now));
+		entry.setModifiedDate(serviceContext.getModifiedDate(now));
+		entry.setExpandoBridgeAttributes(serviceContext);
+		entry.setGuestbookId(guestbookId);
+		entry.setName(name);
+		entry.setEmail(email);
+		entry.setMessage(message);
+
+		entryPersistence.update(entry);
 
 		return entry;
+
 	}
-	
+
+	@Override
+	public int getEntriesCount(long groupId, long guestbookId) throws SystemException {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public Entry deleteEntry(long entryId, ServiceContext serviceContext) throws PortalException, SystemException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Entry updateEntry(long userId, long guestbookId, long entryId, String name, String email, String message,
+			ServiceContext serviceContext) throws PortalException, SystemException {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 }

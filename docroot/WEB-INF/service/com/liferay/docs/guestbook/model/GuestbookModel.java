@@ -207,19 +207,19 @@ public interface GuestbookModel extends BaseModel<Guestbook>, StagedGroupedModel
 	public void setModifiedDate(Date modifiedDate);
 
 	/**
-	 * Returns the nome of this guestbook.
+	 * Returns the name of this guestbook.
 	 *
-	 * @return the nome of this guestbook
+	 * @return the name of this guestbook
 	 */
 	@AutoEscape
-	public String getNome();
+	public String getName();
 
 	/**
-	 * Sets the nome of this guestbook.
+	 * Sets the name of this guestbook.
 	 *
-	 * @param nome the nome of this guestbook
+	 * @param name the name of this guestbook
 	 */
-	public void setNome(String nome);
+	public void setName(String name);
 
 	@Override
 	public boolean isNew();
