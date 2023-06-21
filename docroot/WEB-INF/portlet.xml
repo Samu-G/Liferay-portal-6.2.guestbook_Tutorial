@@ -8,7 +8,7 @@
 		<portlet-class>com.liferay.docs.guestbook.portlet.GuestbookListController</portlet-class>
 		<init-param>
 			<name>view-template</name>
-			<value>/html/guestbooklistcontroller/view.jsp</value>
+			<value>/html/guestbook/view.jsp</value>
 		</init-param>
 		<expiration-cache>0</expiration-cache>
 		<supports>

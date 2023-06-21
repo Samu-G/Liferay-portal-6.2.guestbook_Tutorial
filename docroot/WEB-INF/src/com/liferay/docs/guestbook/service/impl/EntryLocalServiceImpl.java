@@ -126,5 +126,6 @@ public class EntryLocalServiceImpl extends EntryLocalServiceBaseImpl {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
 	
 }
