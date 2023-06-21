@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE service-builder PUBLIC "-//Liferay//DTD Service Builder 6.2.0//EN" "http://www.liferay.com/dtd/liferay-service-builder_6_2_0.dtd">
+<service-builder package-path="com.liferay.docs.guestbook">
+	<author>s.girardello</author>
+
+	<namespace>AB</namespace>
+
+	<entity name="Guestbook" local-service="true" uuid="true" remote-service="true">
+
+		<!-- PK fields -->
+
+		<column name="guestbookId" primary="true" type="long"></column>
+
+		<!-- Group instance -->
+
+		<column name="groupId" type="long"></column>
+
+		<!-- Audit fields -->
+
+		<column name="companyId" type="long"></column>
+		<column name="userId" type="long"></column>
+		<column name="userName" type="String"></column>
+		<column name="createDate" type="Date"></column>
+		<column name="modifiedDate" type="Date"></column>
+        <column name="nome" type="String"></column>
+        <finder name="GroupId" return-type="Collection">
+            <finder-column name="groupId"></finder-column>
+        </finder>
+	</entity>
+	
+	<entity name="Entry" local-service="true" remote-service="true" uuid="true">
+
+		<!-- PK fields -->
+
+		<column name="entryId" primary="true" type="long"></column>
+
+		<!-- Group instance -->
+
+		<column name="groupId" type="long"></column>
+
+		<!-- Audit fields -->
+
+		<column name="companyId" type="long"></column>
+		<column name="userId" type="long"></column>
+		<column name="userName" type="String"></column>
+		<column name="createDate" type="Date"></column>
+		<column name="modifiedDate" type="Date"></column>
+        <column name="name" type="String"></column>
+        <column name="email" type="String" primary="false"></column>
+        <column name="message" type="String"></column>
+        <column name="guestbookId" type="long"></column>
+        <finder name="G_G" return-type="Collection">
+            <finder-column name="groupId"></finder-column>
+            <finder-column name="guestbookId"></finder-column>
+        </finder>
+	</entity>
+	
+    <exceptions>
+        <exception>GuestbookName</exception>
+        <exception>EntryName</exception>
+        <exception>EntryMessage</exception>
+        <exception>EntryEmail</exception>
+    </exceptions>
+</service-builder>
