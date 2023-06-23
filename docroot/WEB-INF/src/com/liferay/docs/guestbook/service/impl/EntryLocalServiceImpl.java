@@ -21,6 +21,8 @@ import com.liferay.docs.guestbook.model.Entry;
 import com.liferay.docs.guestbook.service.base.EntryLocalServiceBaseImpl;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.search.Indexer;
+import com.liferay.portal.kernel.search.IndexerRegistryUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.model.ResourceConstants;
 import com.liferay.portal.model.User;
@@ -33,10 +35,14 @@ import java.util.List;
  * The implementation of the entry local service.
  *
  * <p>
- * All custom service methods should be put in this class. Whenever methods are added, rerun ServiceBuilder to copy their definitions into the {@link com.liferay.docs.guestbook.service.EntryLocalService} interface.
+ * All custom service methods should be put in this class. Whenever methods are
+ * added, rerun ServiceBuilder to copy their definitions into the
+ * {@link com.liferay.docs.guestbook.service.EntryLocalService} interface.
  *
  * <p>
- * This is a local service. Methods of this service will not have security checks based on the propagated JAAS credentials because this service can only be accessed from within the same VM.
+ * This is a local service. Methods of this service will not have security
+ * checks based on the propagated JAAS credentials because this service can only
+ * be accessed from within the same VM.
  * </p>
  *
  * @author s.girardello
@@ -47,11 +53,13 @@ public class EntryLocalServiceImpl extends EntryLocalServiceBaseImpl {
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never reference this interface directly. Always use {@link com.liferay.docs.guestbook.service.EntryLocalServiceUtil} to access the entry local service.
+	 * Never reference this interface directly. Always use {@link
+	 * com.liferay.docs.guestbook.service.EntryLocalServiceUtil} to access the entry
+	 * local service.
 	 */
-	
-	//IMPLEMENTARE I METODI MANCANTI PER ENTRY
-	
+
+	// IMPLEMENTARE I METODI MANCANTI PER ENTRY
+
 	public List<Entry> getEntries(long groupId, long guestbookId) throws SystemException {
 		return entryPersistence.findByG_G(groupId, guestbookId);
 	}
@@ -105,6 +113,11 @@ public class EntryLocalServiceImpl extends EntryLocalServiceBaseImpl {
 
 		resourceLocalService.addResources(user.getCompanyId(), groupId, userId, Entry.class.getName(), entryId, false,
 				true, true);
+
+		Indexer indexer = IndexerRegistryUtil.nullSafeGetIndexer(Entry.class);
+
+		indexer.reindex(entry);
+
 		return entry;
 	}
 
@@ -114,53 +127,54 @@ public class EntryLocalServiceImpl extends EntryLocalServiceBaseImpl {
 	}
 
 	@Override
-	public Entry deleteEntry(long entryId, ServiceContext serviceContext)
-		    throws PortalException, SystemException {
+	public Entry deleteEntry(long entryId, ServiceContext serviceContext) throws PortalException, SystemException {
 
-		    Entry entry = getEntry(entryId);
+		Entry entry = getEntry(entryId);
 
-		    resourceLocalService.deleteResource(
-		        serviceContext.getCompanyId(), Entry.class.getName(),
-		        ResourceConstants.SCOPE_INDIVIDUAL, entryId);
+		resourceLocalService.deleteResource(serviceContext.getCompanyId(), Entry.class.getName(),
+				ResourceConstants.SCOPE_INDIVIDUAL, entryId);
 
-		        entry = deleteEntry(entryId);
+		entry = deleteEntry(entryId);
 
-		        return entry;
-		}
+		Indexer indexer = IndexerRegistryUtil.nullSafeGetIndexer(Entry.class);
 
-	@Override
-	public Entry updateEntry(
-	        long userId, long guestbookId, long entryId, String name,
-	        String email, String message, ServiceContext serviceContext)
-	    throws PortalException, SystemException {
-
-	    long groupId = serviceContext.getScopeGroupId();
-
-	    User user = userPersistence.findByPrimaryKey(userId);
-
-	    Date now = new Date();
-
-	    validate(name, email, message);
-
-	    Entry entry = getEntry(entryId);
-
-	    entry.setUserId(userId);
-	    entry.setUserName(user.getFullName());
-	    entry.setName(name);
-	    entry.setEmail(email);
-	    entry.setMessage(message);
-	    entry.setModifiedDate(serviceContext.getModifiedDate(now));
-	    entry.setExpandoBridgeAttributes(serviceContext);
-
-	    entryPersistence.update(entry);
-
-	    resourceLocalService.updateResources(
-	        user.getCompanyId(), groupId, Entry.class.getName(), entryId,
-	        serviceContext.getGroupPermissions(),
-	        serviceContext.getGuestPermissions());
+		indexer.delete(entry);
 
 		return entry;
 	}
 
-	
+	@Override
+	public Entry updateEntry(long userId, long guestbookId, long entryId, String name, String email, String message,
+			ServiceContext serviceContext) throws PortalException, SystemException {
+
+		long groupId = serviceContext.getScopeGroupId();
+
+		User user = userPersistence.findByPrimaryKey(userId);
+
+		Date now = new Date();
+
+		validate(name, email, message);
+
+		Entry entry = getEntry(entryId);
+
+		entry.setUserId(userId);
+		entry.setUserName(user.getFullName());
+		entry.setName(name);
+		entry.setEmail(email);
+		entry.setMessage(message);
+		entry.setModifiedDate(serviceContext.getModifiedDate(now));
+		entry.setExpandoBridgeAttributes(serviceContext);
+
+		entryPersistence.update(entry);
+
+		resourceLocalService.updateResources(user.getCompanyId(), groupId, Entry.class.getName(), entryId,
+				serviceContext.getGroupPermissions(), serviceContext.getGuestPermissions());
+
+		Indexer indexer = IndexerRegistryUtil.nullSafeGetIndexer(Entry.class);
+
+		indexer.reindex(entry);
+
+		return entry;
+	}
+
 }
