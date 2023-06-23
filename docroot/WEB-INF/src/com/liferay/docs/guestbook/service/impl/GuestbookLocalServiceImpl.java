@@ -25,6 +25,7 @@ import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.model.ResourceConstants;
 import com.liferay.portal.model.User;
 import com.liferay.portal.service.ServiceContext;
+import com.liferay.portal.service.UserLocalServiceUtil;
 
 import java.util.Date;
 import java.util.List;
@@ -93,7 +94,33 @@ public class GuestbookLocalServiceImpl extends GuestbookLocalServiceBaseImpl {
 				Guestbook.class.getName(), guestbookId, false, true, true);
 		return guestbook;
 	}
+	
+	public Guestbook updateGuestbook(long userId, long guestbookId, String name, ServiceContext serviceContext)
+			throws PortalException, SystemException {
 
+		Date now = new Date();
+
+		validate(name);
+
+		Guestbook guestbook = getGuestbook(guestbookId);
+
+		User user = UserLocalServiceUtil.getUser(userId);
+
+		guestbook.setUserId(userId);
+		guestbook.setUserName(user.getFullName());
+		guestbook.setModifiedDate(serviceContext.getModifiedDate(now));
+		guestbook.setName(name);
+		guestbook.setExpandoBridgeAttributes(serviceContext);
+
+		guestbookPersistence.update(guestbook);
+
+		resourceLocalService.updateResources(serviceContext.getCompanyId(), serviceContext.getScopeGroupId(), name,
+				guestbookId, serviceContext.getGroupPermissions(), serviceContext.getGuestPermissions());
+
+		return guestbook;
+	}
+	
+	/* effettua una chiamata di servizio per eliminare tutte le voci associate a un libro */
 	public Guestbook deleteGuestbook(long guestbookId, ServiceContext serviceContext)
 			throws PortalException, SystemException {
 
@@ -111,6 +138,11 @@ public class GuestbookLocalServiceImpl extends GuestbookLocalServiceBaseImpl {
 		guestbook = deleteGuestbook(guestbook);
 
 		return guestbook;
+	}
+	
+	/* restituisce il numero di guestbook in un sito */
+	public int getGuestbooksCount(long groupId) throws SystemException {
+		return guestbookPersistence.countByGroupId(groupId);
 	}
 	
 }

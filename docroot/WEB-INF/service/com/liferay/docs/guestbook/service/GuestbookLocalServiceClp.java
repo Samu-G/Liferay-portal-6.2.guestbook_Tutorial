@@ -145,11 +145,22 @@ public class GuestbookLocalServiceClp implements GuestbookLocalService {
 				"com.liferay.portal.service.ServiceContext"
 			};
 
-		_methodName26 = "deleteGuestbook";
+		_methodName26 = "updateGuestbook";
 
 		_methodParameterTypes26 = new String[] {
+				"long", "long", "java.lang.String",
+				"com.liferay.portal.service.ServiceContext"
+			};
+
+		_methodName27 = "deleteGuestbook";
+
+		_methodParameterTypes27 = new String[] {
 				"long", "com.liferay.portal.service.ServiceContext"
 			};
+
+		_methodName28 = "getGuestbooksCount";
+
+		_methodParameterTypes28 = new String[] { "long" };
 	}
 
 	@Override
@@ -934,8 +945,8 @@ public class GuestbookLocalServiceClp implements GuestbookLocalService {
 	}
 
 	@Override
-	public com.liferay.docs.guestbook.model.Guestbook deleteGuestbook(
-		long guestbookId,
+	public com.liferay.docs.guestbook.model.Guestbook updateGuestbook(
+		long userId, long guestbookId, java.lang.String name,
 		com.liferay.portal.service.ServiceContext serviceContext)
 		throws com.liferay.portal.kernel.exception.PortalException,
 			com.liferay.portal.kernel.exception.SystemException {
@@ -944,6 +955,50 @@ public class GuestbookLocalServiceClp implements GuestbookLocalService {
 		try {
 			returnObj = _invokableLocalService.invokeMethod(_methodName26,
 					_methodParameterTypes26,
+					new Object[] {
+						userId,
+						
+					guestbookId,
+						
+					ClpSerializer.translateInput(name),
+						
+					ClpSerializer.translateInput(serviceContext)
+					});
+		}
+		catch (Throwable t) {
+			t = ClpSerializer.translateThrowable(t);
+
+			if (t instanceof com.liferay.portal.kernel.exception.PortalException) {
+				throw (com.liferay.portal.kernel.exception.PortalException)t;
+			}
+
+			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			}
+
+			if (t instanceof RuntimeException) {
+				throw (RuntimeException)t;
+			}
+			else {
+				throw new RuntimeException(t.getClass().getName() +
+					" is not a valid exception");
+			}
+		}
+
+		return (com.liferay.docs.guestbook.model.Guestbook)ClpSerializer.translateOutput(returnObj);
+	}
+
+	@Override
+	public com.liferay.docs.guestbook.model.Guestbook deleteGuestbook(
+		long guestbookId,
+		com.liferay.portal.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		Object returnObj = null;
+
+		try {
+			returnObj = _invokableLocalService.invokeMethod(_methodName27,
+					_methodParameterTypes27,
 					new Object[] {
 						guestbookId,
 						
@@ -971,6 +1026,34 @@ public class GuestbookLocalServiceClp implements GuestbookLocalService {
 		}
 
 		return (com.liferay.docs.guestbook.model.Guestbook)ClpSerializer.translateOutput(returnObj);
+	}
+
+	@Override
+	public int getGuestbooksCount(long groupId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		Object returnObj = null;
+
+		try {
+			returnObj = _invokableLocalService.invokeMethod(_methodName28,
+					_methodParameterTypes28, new Object[] { groupId });
+		}
+		catch (Throwable t) {
+			t = ClpSerializer.translateThrowable(t);
+
+			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			}
+
+			if (t instanceof RuntimeException) {
+				throw (RuntimeException)t;
+			}
+			else {
+				throw new RuntimeException(t.getClass().getName() +
+					" is not a valid exception");
+			}
+		}
+
+		return ((Integer)returnObj).intValue();
 	}
 
 	private InvokableLocalService _invokableLocalService;
@@ -1026,4 +1109,8 @@ public class GuestbookLocalServiceClp implements GuestbookLocalService {
 	private String[] _methodParameterTypes25;
 	private String _methodName26;
 	private String[] _methodParameterTypes26;
+	private String _methodName27;
+	private String[] _methodParameterTypes27;
+	private String _methodName28;
+	private String[] _methodParameterTypes28;
 }
